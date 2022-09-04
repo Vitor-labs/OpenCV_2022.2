@@ -1,7 +1,8 @@
 import cv2 as cv
+from cv2 import Mat
 
 
-def rescale_frames(frame, scale_factor):
+def rescale_frames(frame: Mat, scale_factor):
     width = int(frame.shape[1] * scale_factor)
     height = int(frame.shape[0] * scale_factor)
     dim = (width, height)
@@ -14,7 +15,7 @@ def show_rescaled_imgs():
     # read image
     frame = cv.imread('data/images/th1.webp')
     # rescale image
-    resized = rescale_frames(frame, 0.5)
+    resized = rescale_frames(frame, 1.5)
     # show image
     cv.imshow('frame', resized)
     # wait for key press
@@ -44,4 +45,4 @@ def show_rescaled_video():
 
 if __name__ == '__main__':
     #    show_rescaled_imgs()
-    show_rescaled_video()
+    show_rescaled_imgs()
