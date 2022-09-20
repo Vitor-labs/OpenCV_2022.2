@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-from cv_utils import waitKey
+from cv_utils import wait_key
 
 
 def gamma_correction(img, gamma, c=1.0):
@@ -35,7 +35,5 @@ im = cv.imread(filename)
 
 cv.namedWindow('image', cv.WINDOW_NORMAL)
 cv.createTrackbar('gamma', 'image', 0, 100, callback_trackbar)
-
-
 cv.imshow('image', im)
-waitKey('image', 27)  # 27 = ESC
+wait_key('image', 27)  # 27 = ESC
