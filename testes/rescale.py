@@ -8,6 +8,7 @@ def rescale_frames(frame, scale_factor=0.5):
     height = int(frame.shape[0] * scale_factor)
     # resize image
     return cv.resize(frame, (width, height), interpolation=cv.INTER_AREA)
+    # LINEAR | CUBIC for resize to an bigger image
 
 
 def show_rescaled_imgs():
