@@ -1,23 +1,21 @@
 import cv2 as cv
-from cv2 import Mat
 
 
-def rescale_frames(frame: Mat, scale_factor):
+def rescale_frames(frame, scale_factor=0.5):
     width = int(frame.shape[1] * scale_factor)
     height = int(frame.shape[0] * scale_factor)
-    dim = (width, height)
     # resize image
-    resized = cv.resize(frame, dim, interpolation=cv.INTER_AREA)
-    return resized
+    return cv.resize(frame, (width, height), interpolation=cv.INTER_AREA)
 
 
 def show_rescaled_imgs():
     # read image
-    frame = cv.imread('data/images/th1.webp')
+    frame = cv.imread('jato.jpg')
+    scale = 2.5
     # rescale image
-    resized = rescale_frames(frame, 1.5)
+    resized = rescale_frames(frame, scale)
     # show image
-    cv.imshow('frame', resized)
+    cv.imshow(f'frame on {scale}x', resized)
     # wait for key press
     cv.waitKey(0)
     # release resources
@@ -26,14 +24,16 @@ def show_rescaled_imgs():
 
 def show_rescaled_video():
     # read video
-    cap = cv.VideoCapture('data/videos/v2.mp4')
+    cap = cv.VideoCapture('../data/videos/v1.avi')
     # rescale video
     while True:
         ret, frame = cap.read()
+
         if not ret:
+            print('dafuk')
             break
 
-        resized = rescale_frames(frame, 0.5)
+        resized = rescale_frames(frame, 1.75)
         cv.imshow('frame', resized)
 
         if cv.waitKey(20) & 0xFF == ord('q'):
@@ -44,5 +44,5 @@ def show_rescaled_video():
 
 
 if __name__ == '__main__':
-    #    show_rescaled_imgs()
-    show_rescaled_imgs()
+    # show_rescaled_imgs()
+    show_rescaled_video()

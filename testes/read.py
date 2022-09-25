@@ -27,7 +27,9 @@ def show_video():
 def capture_video():
     cap = cv.VideoCapture(0)
     fourcc = cv.VideoWriter_fourcc(*'XVID')
-    out = cv.VideoWriter('data/videos/v2.mp4', fourcc, 20.0, (640, 480))
+    out = cv.VideoWriter('../data/videos/v1.avi', fourcc, 20, (640, 480))
+
+    # record video
     while True:
         ret, frame = cap.read()
         if not ret:
