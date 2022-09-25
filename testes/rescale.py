@@ -1,5 +1,7 @@
 import cv2 as cv
 
+# useful to almost every video, image, live-video
+
 
 def rescale_frames(frame, scale_factor=0.5):
     width = int(frame.shape[1] * scale_factor)
