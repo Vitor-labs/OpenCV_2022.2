@@ -4,13 +4,12 @@ import numpy as np
 
 img = cv.imread('dog2.jpg')
 cv.imshow('DOGO', img)
-
-
-'''Rules for tranformations
-    -x --> Left
-    -y --> Up
-     x --> Right
-     y --> Down
+'''
+Rules for tranformations
+    -x -> Left
+    -y -> Up
+     x -> Right
+     y -> Down
 '''
 
 
