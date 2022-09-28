@@ -6,9 +6,6 @@ blank = np.zeros((400, 400), dtype='uint8')
 rect = cv.rectangle(blank.copy(), (30, 30), (370, 370), 255, -1)
 circ = cv.circle(blank.copy(), (200, 200), 200, 255, -1)
 
-cv.imshow('rectange', rect)
-cv.imshow('circle', circ)
-
 # AND -> return the intersection
 and_ = cv.bitwise_and(rect, circ)
 cv.imshow('and', and_)
