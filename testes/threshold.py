@@ -7,11 +7,13 @@ img = cv.imread(filename)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-# thresholds
+# normal threshold
 _, thresh = cv.threshold(gray, 150, 255, cv.THRESH_BINARY)
+# inverse threshold
 _, thresh_inv = cv.threshold(gray, 150, 255, cv.THRESH_BINARY_INV)
+# adaptative, find the optimal threshold value.
 adaptive = cv.adaptiveThreshold(
-    gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 9)
+    gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 15, 7)
 
 plt.subplot(221), plt.imshow(img), plt.title('original')
 plt.xticks([]), plt.yticks([])
