@@ -1,16 +1,14 @@
-import sys
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-filename = sys.argv[1]
+filename = "imagens/barcode-code-128.png"
 
 img = cv2.imread(filename)
+height, width = img.shape[0], img.shape[1]
 
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-height, width = img.shape[0], img.shape[1]
 
 edges = cv2.Canny(gray, 100, 200)
 lines = cv2.HoughLines(edges, 1, np.pi/180, 150)
