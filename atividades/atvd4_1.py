@@ -33,7 +33,7 @@ def detect_circles(img):
     
     cv.imshow("detected circles", copy)
     cv.waitKey(0)
-
+    
 def detect_lines(img):
     dst = cv.Canny(img, 50, 200, None, 3)
     
