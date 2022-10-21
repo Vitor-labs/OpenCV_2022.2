@@ -47,23 +47,23 @@ def detect_shape(c):
     return shape
 
 # Load image, grayscale, Otsu's threshold
-image = cv2.imread('data\images\placas-transito.jpg')
+image = cv2.imread('data\images\\barcode-code-128.png')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
 # Find contours and detect shape
 cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-cv2.drawContours(image, cnts, -1, (0,255,0), 3)
+cv2.drawContours(image, cnts, -1, (0,255,0), 1)
 for c in cnts:
     # Identify shape
     shape = detect_shape(c)
 
     # Find centroid and label shape name
-    M = cv2.moments(c)
-    cX = int(M["m10"] / M["m00"])
-    cY = int(M["m01"] / M["m00"])
-    cv2.putText(image, shape, (cX - 20, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 2)
+    # M = cv2.moments(c)
+    # cX = int(M["m10"] / M["m00"])
+    # cY = int(M["m01"] / M["m00"])
+    # cv2.putText(image, shape, (cX - 20, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 2)
 
 cv2.imshow('thresh', thresh)
 cv2.imshow('image', image)
