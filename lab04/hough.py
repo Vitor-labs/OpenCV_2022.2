@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-filename = "imagens/barcode-code-128.png"
+filename = "imagens\placas-transito.jpg"
 
 img = cv2.imread(filename)
 height, width = img.shape[0], img.shape[1]
