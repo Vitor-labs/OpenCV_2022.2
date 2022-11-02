@@ -1,11 +1,9 @@
-import sys
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-filename = sys.argv[1]
+filename = "imagens\pieces.png"
 img = cv2.imread(filename,0)
-
 
 #media 5x5
 avg_blur = cv2.blur(img,(5,5))
@@ -13,15 +11,12 @@ avg_blur = cv2.blur(img,(5,5))
 #gaussian
 gaussian_blur = cv2.GaussianBlur(img,(5,5),1)
 
-
 #mediana
 median_blur = cv2.medianBlur(img,5)
-
 
 #custom kernel (Style)
 kernel = np.float32([[-2,-1,0],[-1,1,1],[0,1,2]])
 custom = cv2.filter2D(img,-1,kernel)
-
 
 #custom kernel 
 kernel = np.float32([[1,1,1],[0,0,0],[-1,-1,-1]]) #Prewitt
