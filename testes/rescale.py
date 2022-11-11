@@ -27,7 +27,7 @@ def show_rescaled_imgs():
 
 def show_rescaled_video():
     # read video
-    cap = cv.VideoCapture('../data/videos/v1.avi')
+    cap = cv.VideoCapture('./data/videos/v1.avi')
     # rescale video
     while True:
         ret, frame = cap.read()
@@ -36,7 +36,7 @@ def show_rescaled_video():
             print('dafuk')
             break
 
-        resized = rescale_frames(frame, 1.75)
+        resized = rescale_frames(frame, 0.5)
         cv.imshow('frame', resized)
 
         if cv.waitKey(20) & 0xFF == ord('q'):

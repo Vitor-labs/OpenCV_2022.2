@@ -2,27 +2,35 @@ import cv2
 import seam_carving
 
 
-filename = "ibiza.jpg"
-x_scale, y_scale = 0.70, 0.50
+def retarget_frames(frame, size, e_mode='forward', carving_order='height-first'):
+    return seam_carving.resize(
+        frame, size,
+        energy_mode=e_mode,   
+        order=carving_order)
 
-img = cv2.imread(filename)
-img_h, img_w, _ = img.shape
+def show_retarget_video():
+    cap = cv2.VideoCapture('v1.avi')
 
-new_size = (img_w*x_scale, img_h*y_scale)
+    while True:
+        _, frame = cap.read()
 
-e_mode = 'forward'
-# e_mode = 'backward'
+        if not _:
+            print("error on reading")
+            break
 
-carving_order = 'height-first'
-#carving_order = 'width-first'
+        x_scale, y_scale = 0.70, 0.50
 
-img_seam = seam_carving.resize(
-    img, new_size,
-    energy_mode=e_mode,   
-    order=carving_order)
+        img_h, img_w, _ = frame.shape
+        new_size = (img_w*x_scale, img_h*y_scale)
+
+        ret = retarget_frames(frame, new_size)
+        cv2.imshow('Retarget video', ret)
+        
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    show_retarget_video()
 
     
-cv2.imshow("Original", img)
-cv2.imshow("Seam Carving", img_seam)
-
-cv2.waitKey(0)
