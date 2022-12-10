@@ -47,13 +47,13 @@ def detect_faces(img):
 
 def main():    
     # Face detection, using Haar cascade classifier
-    files = ['../data/videos/face1.avi',
-            '../data/videos/face2.avi',
-            '../data/videos/face3.avi']
+    files = ['face1.avi',
+            'face2.avi',
+            'face3.avi']
     
     for file in files:
         start = time.time()
-        cap = cv2.VideoCapture(file)
+        cap = cv2.VideoCapture(f'../data/videos/{file}')
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -70,7 +70,7 @@ def main():
         cv2.destroyAllWindows()
         end = time.time()
         
-        print("File: ",file," | Time: ",(end-start)," s.")
+        print("File: ",file," | Time: ",int(end-start)," s.")
 
 if __name__ == '__main__':
     main()
