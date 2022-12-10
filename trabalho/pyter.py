@@ -20,7 +20,7 @@ for file in header_files:
 header = header_list[3]
 color = (255,255,255)
 brush_tickness = 15
-eraser_tickness = 15
+eraser_tickness = 100
 frame_canvas = np.zeros((1000,1400,3),np.uint8)
 
 detector = HandDetector(max_num_hands=1)
@@ -41,6 +41,7 @@ while True:
     landmarks, bbox = detector.find_position(frame, draw_landmark=False)
 
     if len(landmarks) != 0:
+        xp, yp = 0, 0
         # Tip of Fingers
         _, x1, y1 = landmarks[8]
         _, x2, y2 = landmarks[12]
@@ -82,6 +83,14 @@ while True:
                 cv2.line(frame_canvas, (xp, yp), (x1, y1), color, brush_tickness)
             
             xp, yp = x1, y1
+
+    gray = cv2.cvtColor(frame_canvas, cv2.COLOR_BGR2GRAY)
+    _, img_inv = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY_INV)
+    img_inv = cv2.cvtColor(img_inv, cv2.COLOR_GRAY2BGR)
+
+    frame = cv2.bitwise_and(frame, img_inv)
+    frame = cv2.bitwise_or(frame, img_inv)
+    
     # Setting Header
     frame[0:200, 0:820] = header
     #frame = cv2.addWeighted(frame, 0.5, frame_canvas, 0.5, 0)
