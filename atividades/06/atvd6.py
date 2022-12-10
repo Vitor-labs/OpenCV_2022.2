@@ -4,7 +4,7 @@ import seam_carving
 """
 1) Crie um programa para redimensionamento de vídeo utilizando o Seam Carving.
 """
-def retarget_frames(frame, new_size, e_mode='forward', carving_order='height-first') :
+def retarget_frames(frame, new_size, e_mode='forward', carving_order='width-first') :
     print("Retargeting...")
     return seam_carving.resize(
         frame, new_size,
@@ -14,26 +14,27 @@ def retarget_frames(frame, new_size, e_mode='forward', carving_order='height-fir
 
 def retarget_video(filename: str) -> None:
     cap = cv2.VideoCapture(filename)
+    
+    if cap.isOpened(): 
+        width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float `width`
+        height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float `height`
+
+    
+    x_scale, y_scale = 0.70, 0.70
+    new_size = (int(width*x_scale), int(height*y_scale))
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+    out = cv2.VideoWriter('output.avi',fourcc, 20, new_size)
 
     while True:
         ret, frame = cap.read()
         print("Reading Frames")
 
         if not ret: 
-            print("error on reading the file")
             break
-
-        x_scale, y_scale = 0.70, 0.70
-        img_h, img_w, _ = frame.shape
-        new_size = (int(img_w*x_scale), int(img_h*y_scale))
         
         frame = retarget_frames(frame, new_size)
-        
-        cv2.imshow("Retarget Frame",frame)
 
         out.write(frame)
 
@@ -50,10 +51,10 @@ def show_video():
     while True:
         ret, frame = cap.read()
         if not ret:
-            print("Error on reading the file")
             break
 
         cv2.imshow('frame', frame)
+
         if cv2.waitKey(1) == ord('q'):
             break
 
@@ -62,8 +63,8 @@ def show_video():
 
 
 if __name__ == '__main__':
-    filename = '../data/videos/v1.avi'
-    #retarget_video(filename)
-    show_video()
+    filename = '../data/videos/dogs.avi'
+    retarget_video(filename)
+    #show_video()
 
     
