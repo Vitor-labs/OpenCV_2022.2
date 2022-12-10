@@ -39,27 +39,29 @@ while True:
         break
 
     frame = detector.detect_hands(frame)
-    landmarks = detector.find_position(frame, draw_landmark=False)
+    landmarks, bbox = detector.find_position(frame, draw_landmark=False)
 
-    if len(landmarks) != 0:
-        x1, y1 = landmarks[4][1], landmarks[4][2]
-        x2, y2 = landmarks[8][1], landmarks[8][2]
-        cx, cy = (x1+x2)//2, (y1+y2)//2 # Centroid Location
+    if len(landmarks) == 0:
+        print("No Hand Detected")
+    
+    x1, y1 = landmarks[4][1], landmarks[4][2]
+    x2, y2 = landmarks[8][1], landmarks[8][2]
+    cx, cy = (x1+x2)//2, (y1+y2)//2 # Centroid Location
 
-        cv2.circle(frame, (x1, y1), 20, (0,255,255), cv2.FILLED)
-        cv2.circle(frame, (x2, y2), 20, (0,255,255), cv2.FILLED)
-        cv2.line(frame, (x1, y1), (x2, y2), (0,255,255), 3)
-        cv2.circle(frame, (cx, cy), 20, (0,255,255), cv2.FILLED)
-        
-        length = math.hypot(x2 - x1, y2 - y1) # min-max between 50 to 250
+    cv2.circle(frame, (x1, y1), 20, (0,255,255), cv2.FILLED)
+    cv2.circle(frame, (x2, y2), 20, (0,255,255), cv2.FILLED)
+    cv2.line(frame, (x1, y1), (x2, y2), (0,255,255), 3)
+    cv2.circle(frame, (cx, cy), 20, (0,255,255), cv2.FILLED)
+    
+    length = math.hypot(x2 - x1, y2 - y1) # min-max between 50 to 250
 
-        if length < 50:
-            cv2.circle(frame, (cx, cy), 20, (255,0,255), cv2.FILLED)
+    if length < 50:
+        cv2.circle(frame, (cx, cy), 20, (255,0,255), cv2.FILLED)
 
-        vol = np.interp(length, [50, 250], [min_volume, max_volume])
-        volume_bar = np.interp(length, [50, 250], [400, 150])
-        vol_percent = int(np.interp(length, [50, 250], [0, 100]))
-        volume.SetMasterVolumeLevel(vol, None)
+    vol = np.interp(length, [50, 250], [min_volume, max_volume])
+    volume_bar = np.interp(length, [50, 250], [400, 150])
+    vol_percent = int(np.interp(length, [50, 250], [0, 100]))
+    volume.SetMasterVolumeLevel(vol, None)
 
     # Volume bar visualization
     cv2.rectangle(frame, (50,150), (85,400), (0,255,255), 3)

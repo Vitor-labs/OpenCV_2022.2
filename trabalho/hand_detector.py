@@ -49,7 +49,7 @@ class HandDetector():
                 y_list.append(cy)
                 self.landmarks.append([idx, cx, cy])
                 if draw_landmark:
-                    _, x, y = landmarks[landmark_number]
+                    _, x, y = self.landmarks[landmark_number]
                     cv2.circle(frame, (x, y), 20, (0,255,255), cv2.FILLED)
             
             xmin, xmax = min(x_list), max(x_list)
@@ -104,7 +104,6 @@ def main():
         
         frame = detector.detect_hands(frame)
         landmarks = detector.find_position(frame)
-        if len(landmarks) != 0: print("Landmarks:", landmarks[8])
 
         cv2.imshow("frame", frame)
         

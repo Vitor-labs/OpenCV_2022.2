@@ -64,7 +64,7 @@ def show_video():
 
 if __name__ == '__main__':
     filename = '../data/videos/dogs.avi'
-    retarget_video(filename)
-    #show_video()
+    #retarget_video(filename)
+    show_video()
 
     

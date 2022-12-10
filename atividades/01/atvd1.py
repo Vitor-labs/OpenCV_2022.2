@@ -1,6 +1,6 @@
 import cv2
 
-img = cv2.imread("1.jpg")
+img = cv2.imread("../data/images/1.jpg")
 
 green = img[:, :, 1].copy()
 blue = img[:, :, 0].copy()
