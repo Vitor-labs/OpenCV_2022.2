@@ -1,5 +1,5 @@
 import cv2
-from hand_detector import HandDetector
+import mediapipe as mp
 
 
 class HandDetector():
@@ -17,6 +17,9 @@ class HandDetector():
 
 
     def detect_hands(self, frame, draw_landmarks=True):
+        """
+        Returns the hand detected frame as cv2.Mat
+        """
         img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(img_rgb)
 
@@ -27,6 +30,9 @@ class HandDetector():
         return frame
 
     def find_position(self, frame, landmark_number=0, draw_landmark=True):
+        """
+        returns a list with the coordinates of all landmarks in the detected frame
+        """
         landmarks = []
         if self.results.multi_hand_landmarks:
             choice = self.results.multi_hand_landmarks[landmark_number]
@@ -47,7 +53,8 @@ def main():
     while True:
         ret, frame = cap.read()
         if not ret: 
-            raise ValueError("Could not read capture")
+            print("erro on read the file")
+            break
         
         frame = detector.detect_hands(frame)
         landmarks = detector.find_position(frame)
