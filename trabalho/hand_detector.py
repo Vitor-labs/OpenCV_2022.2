@@ -16,7 +16,7 @@ class HandDetector():
             self.max_num_hands)
         self.mp_draw = mp.solutions.drawing_utils
 
-        self.tip_idx = [4,8,12,16,20]
+        self.tip_fingers_id = [4,8,12,16,20]
 
 
     def detect_hands(self, frame, draw_landmarks=True):
@@ -77,15 +77,15 @@ class HandDetector():
 
         return length, frame, [x1, y1, x2, y2, cx, cy]
 
-    def fingers_up(self, ):
+    def fingers_up(self):
         fingers = []
-        if self.landmarks[self.tip_idx[0]][1] < self.landmarks[self.tip_idx[0] - 1][1]:
+        if self.landmarks[self.tip_fingers_id[0]][1] < self.landmarks[self.tip_fingers_id[0] - 1][1]:
             fingers.append(1)
         else:
             fingers.append(0)
 
         for idx in range(1,5):
-            if self.landmarks[self.tip_idx[idx]][2] < self.landmarks[self.tip_idx[idx] - 2][2]:
+            if self.landmarks[self.tip_fingers_id[idx]][2] < self.landmarks[self.tip_fingers_id[idx] - 2][2]:
                 fingers.append(1)
             else:
                 fingers.append(0)

@@ -17,9 +17,14 @@ for file in header_files:
 # 3 -> No selection
 # 4 -> Red
 
-header = header_list[3] 
+header = header_list[3]
+color = (255,255,255)
+brush_tickness = 15
+eraser_tickness = 15
+frame_canvas = np.zeros((1000,1400,3),np.uint8)
 
 detector = HandDetector(max_num_hands=1)
+xp, yp = 0, 0
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 1400)
@@ -36,16 +41,53 @@ while True:
     landmarks, bbox = detector.find_position(frame, draw_landmark=False)
 
     if len(landmarks) != 0:
-        print(landmarks)
         # Tip of Fingers
         _, x1, y1 = landmarks[8]
         _, x2, y2 = landmarks[12]
 
+        # checking with fingers are up
+        fingers = detector.fingers_up()
 
+        # Selection Mode: 2 fingers
+        if fingers[1] and fingers[2]:
+            cv2.rectangle(frame, (x1, y1-15), (x2, y2-15), color, cv2.FILLED)
+            print("Selection Mode")
+            #Check selection or click
+            if y1 < 125:
+                if 15 < x1 < 200:
+                    header = header_list[0] # Blue
+                    color = (255,0,0)
+                elif 210 < x1 < 400:
+                    header = header_list[4] # Red
+                    color = (0,0,255)
+                elif 405 < x1 < 580:
+                    header = header_list[2] # Green
+                    color = (0,255,0)
+                elif 615 < x1 < 800:
+                    header = header_list[1] # Eraser
+                    color = (0,0,0)
+
+        if fingers[1] and fingers[2]==False:
+            cv2.circle(frame, (x1, y1), 15, color, cv2.FILLED)
+            print("Drawing Mode")
+
+            if xp == 0 and yp == 0:
+                xp, yp = x1, y1
+
+            if color == (0,0,0):
+                cv2.line(frame, (xp, yp), (x1, y1), color, eraser_tickness)
+                cv2.line(frame_canvas, (xp, yp), (x1, y1), color, eraser_tickness)
+            else:
+                cv2.line(frame, (xp, yp), (x1, y1), color, brush_tickness)
+                cv2.line(frame_canvas, (xp, yp), (x1, y1), color, brush_tickness)
+            
+            xp, yp = x1, y1
     # Setting Header
-
     frame[0:200, 0:820] = header
+    #frame = cv2.addWeighted(frame, 0.5, frame_canvas, 0.5, 0)
+
     cv2.imshow("Frame", frame)
+    cv2.imshow("Canvas", frame_canvas)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
