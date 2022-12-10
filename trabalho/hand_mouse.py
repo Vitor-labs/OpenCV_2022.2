@@ -1,4 +1,5 @@
 import cv2
+import autopy
 import numpy as np
 from hand_detector import HandDetector
 

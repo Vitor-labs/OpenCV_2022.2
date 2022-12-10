@@ -35,25 +35,23 @@ def detect_circles(img):
     cv.waitKey(0)
     
 def detect_lines(img):
+    # Copy edges to the images that will display the results in BGR
     dst = cv.Canny(img, 50, 200, None, 3)
     
-    # Copy edges to the images that will display the results in BGR
-    cdst_p = cv.cvtColor(dst, cv.COLOR_GRAY2BGR)
-
-    lines_p = cv.HoughLinesP(dst, 1, np.pi / 180, 50, None, 50, 10)
+    lines_p = cv.HoughLinesP(dst, 1, np.pi / 180, 120, None, 50, 10)
     
     if lines_p is not None:
         for i in range(0, len(lines_p)):
             l = lines_p[i][0]
-            cv.line(cdst_p, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv.LINE_AA)
+            cv.line(img, (l[0], l[1]), (l[2], l[3]), (0,255,0), 3, cv.LINE_AA)
     
-    cv.imshow("Detected Lines", cdst_p)
+    cv.imshow("Detected Lines", img)
 
     cv.waitKey(0)
 
 def main(argv):
     
-    default_file = 'placas-transito.jpg'
+    default_file = '../data/images/placas-transito.jpg'
     filename = argv[0] if len(argv) > 0 else default_file
     # Loads an image
     src = cv.imread(cv.samples.findFile(filename), cv.IMREAD_COLOR)
